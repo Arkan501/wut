@@ -12,8 +12,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// scan directory for .pb files, this is how we will generate the name of the commands
 func init() {
+    // scan directory for .pb files, this is how we will generate the name of the commands
     entries, err := os.ReadDir("proto")
     // check for errors
     if err != nil {
@@ -25,12 +25,12 @@ func init() {
     for _, entry := range entries {
         if strings.HasSuffix(entry.Name(), ".pb") {
             // get the name of the command
-            cmdName := strings.TrimSuffix(entry.Name(), ".pb")
+            referenceCmd := strings.TrimSuffix(entry.Name(), ".pb")
 
             // create a new command from the name we just got
             rootCmd.AddCommand(&cobra.Command{
-                Use:   cmdName,
-                Short: fmt.Sprintf("%s reference", cmdName),
+                Use:   referenceCmd,
+                Short: fmt.Sprintf("%s reference", referenceCmd),
                 Run: func(cmd *cobra.Command, args []string) {
                     fmt.Println("This is the reference command " + cmd.Use)
                 },
