@@ -14,12 +14,14 @@ var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "print the current version",
 	Long: `It's not that deep bro`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("version called")
+	Run: func(cmd *cobra.Command, args []string) {      // This is the function that will run when the command is called
+        // hardcoded for now
+		fmt.Println("wut alpha")
 	},
 }
 
 func init() {
+    // binding to rootCmd
 	rootCmd.AddCommand(versionCmd)
 
 	// Here you will define your flags and configuration settings.
