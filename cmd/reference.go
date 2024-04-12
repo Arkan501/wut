@@ -15,7 +15,7 @@ import (
 func init() {
     // scan directory for .pb files, this is how we will generate the name of the commands
     entries, err := os.ReadDir("proto")
-    // check for errors
+    // make sure the directory exists
     if err != nil {
         fmt.Println("Error reading directory", err)
         os.Exit(1)
@@ -42,6 +42,11 @@ func init() {
             // referenceCmd.PersistentFlags().String("foo", "", "A help for foo")
             //                  varPersistancy( --word, -flag, defaultValue?, description )
             // referenceCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+            // Flags that I would like to implement would have be the following:
+            // 1. --string, -s, "string to search for"
+            // 2. --tag, -t, "tag to search for"
+            // 3. --list, -l, "list of all topics stored in the current reference"
 
         }
     }
