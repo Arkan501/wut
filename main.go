@@ -8,5 +8,6 @@ package main
 import "github.com/arkan501/wut/cmd"
 
 func main() {
+    // may need to create a reference directory
 	cmd.Execute()
 }
