@@ -46,6 +46,8 @@ func init() {
 			// 1. --string, -s, "string to search for"
 			// 2. --tag, -t, "tag to search for"
 			// 3. --list, -l, "list of all topics stored in the current reference"
+            // 4. --add, -a, "add a new topic to the current reference"
+            // 5. --remove, -r, "remove a topic from the current reference"
 
 		}
 	}

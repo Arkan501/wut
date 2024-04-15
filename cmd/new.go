@@ -23,7 +23,8 @@ var newCmd = &cobra.Command{
 }
 
 func makeNewReference(refName string) {
-	entries, err := os.ReadDir("./proto")
+    directory := "./proto/"
+	entries, err := os.ReadDir(directory)
 	// making sure we can read the directory
 	if err != nil {
 		fmt.Println("Error reading directory", err)
@@ -36,11 +37,12 @@ func makeNewReference(refName string) {
 	for _, entry := range entries {
 		if strings.Contains(entry.Name(), fileName) {
 			fmt.Println("The reference", refName, "already exists")
+			// exit out of the loop and the function if the reference already exists
 			return
 		}
 	}
 
-	directory := "./proto/"
+	// may need to change this later.
 	filePath := directory + fileName
 
 	_, err = os.Create(filePath)
@@ -52,5 +54,6 @@ func makeNewReference(refName string) {
 }
 
 func init() {
+	// add command to wut
 	rootCmd.AddCommand(newCmd)
 }
