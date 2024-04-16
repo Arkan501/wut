@@ -11,17 +11,15 @@ import (
 )
 
 var newCmd = &cobra.Command{
-	Use:  "new ref [referenceName]",
+	Use:  "new-ref",
     Short: "Create a new reference",
 	Long: `create a new reference document`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// since the command name is "new ref" then we need to parse the second
-		// argument to get the reference name.
-		makeNewReference(args[1])
+		makeNewReference(args[0])
 	},
 }
 
-func makeNewReference(refName string) {
+func makeNewReference(referenceName string) {
     directory := "./proto/"
 	entries, err := os.ReadDir(directory)
 	// making sure we can read the directory
@@ -30,12 +28,12 @@ func makeNewReference(refName string) {
 		os.Exit(1)
 	}
 
-	fileName := refName + ".pb"
+	fileName := referenceName + ".pb"
 
 	// checking if the reference already exists
 	for _, entry := range entries {
 		if entry.Name() == fileName {
-			fmt.Println("The reference", refName, "already exists")
+			fmt.Println("The reference file", fileName, "already exists")
 			// exit out of the loop and the function if the reference already exists
 			return
 		}
@@ -49,10 +47,9 @@ func makeNewReference(refName string) {
 		fmt.Println("There was an error creating the reference", err)
 		os.Exit(1)
 	}
-	fmt.Println("Reference", refName, "created successfully")
+	fmt.Println("Reference", referenceName, "created successfully")
 }
 
 func init() {
-	// add command to wut
 	rootCmd.AddCommand(newCmd)
 }

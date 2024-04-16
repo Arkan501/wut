@@ -15,7 +15,11 @@ import (
 var deleteCmd = &cobra.Command{
 	Use:   "delete [referenceName]",
 	Short: "Delete a reference",
-	Long: `Delete a reference by providing it's name`,
+	Long: `
+    This command is to be used when you want to delete a reference that
+    you no longer need. It deletes the WHOLE reference file, so be careful. if 
+    you are just trying to delete something specific in the reference, you should
+    use the {needsToBeImplemented} command instead.`,
 	Run: func(cmd *cobra.Command, args []string) {
         deleteReference(args[0])
 	},
@@ -49,7 +53,7 @@ func deleteReference(reference string) {
     }
     // if the reference does not exist, return an error
     fmt.Println("Reference", reference, "does not exist")
-    return
+    os.Exit(1)
 
 }
 
