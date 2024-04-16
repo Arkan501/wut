@@ -20,7 +20,7 @@ var newCmd = &cobra.Command{
 }
 
 func makeNewReference(referenceName string) {
-    directory := "./proto/"
+    directory := "./reference/"
 	entries, err := os.ReadDir(directory)
 	// making sure we can read the directory
 	if err != nil {

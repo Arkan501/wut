@@ -13,7 +13,7 @@ import (
 
 func createReferenceCmd() *cobra.Command {
     // make sure the proto directory exists
-    entries, err := os.ReadDir("./proto")
+    entries, err := os.ReadDir("./reference")
     // throw an error if it doesn't
     if err != nil {
         fmt.Println("Error reading directory", err)

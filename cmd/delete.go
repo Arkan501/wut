@@ -28,7 +28,7 @@ var deleteCmd = &cobra.Command{
 func deleteReference(reference string) {
     // parse the argument passed to delete to get the file we are looking for.
     fileName := reference + ".pb"
-    directory := "./proto/"
+    directory := "./reference/"
     entries, err := os.ReadDir(directory)
 
     // make sure the directory exists
