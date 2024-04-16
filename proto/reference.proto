@@ -2,9 +2,14 @@ syntax = "proto3";
 package proto;
 
 option go_package = "./";
+
 message Reference {
     string comment = 1;
     string snippet = 2;
     string description = 3;
     string tag = 4;
+}
+
+message ReferenceList {
+    repeated Reference references = 1;
 }

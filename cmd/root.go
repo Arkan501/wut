@@ -16,15 +16,11 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "wut",
 	Short: "gives a short description of a topic, followed by an example",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Long: `
+    wut is a CLI tool that allows you to store and retrieve information
+    about a topic. It gives you, the user, the power to create and manage
+    references tailored to your needs. How useful wut is, is dependent on
+    the user. How you use this tool is up to you.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

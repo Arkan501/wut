@@ -42,7 +42,7 @@ func init() {
 			//                  varPersistancy( --word, -flag, defaultValue?, description )
 			// referenceCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-			// Flags that I would like to implement would have be the following:
+			// Flags that I would like to implement would be the following:
 			// 1. --string, -s, "string to search for"
 			// 2. --tag, -t, "tag to search for"
 			// 3. --list, -l, "list of all topics stored in the current reference"
@@ -51,5 +51,4 @@ func init() {
 
 		}
 	}
-
 }

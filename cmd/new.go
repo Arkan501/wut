@@ -6,19 +6,18 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
 
 var newCmd = &cobra.Command{
 	Use:  "new ref [referenceName]",
+    Short: "Create a new reference",
 	Long: `create a new reference document`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// since the command name is "new ref" then we need to parse the second
 		// argument to get the reference name.
-		referenceName := args[1]
-		makeNewReference(referenceName)
+		makeNewReference(args[1])
 	},
 }
 
@@ -35,7 +34,7 @@ func makeNewReference(refName string) {
 
 	// checking if the reference already exists
 	for _, entry := range entries {
-		if strings.Contains(entry.Name(), fileName) {
+		if entry.Name() == fileName {
 			fmt.Println("The reference", refName, "already exists")
 			// exit out of the loop and the function if the reference already exists
 			return
