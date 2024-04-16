@@ -1,7 +1,7 @@
 syntax = "proto3";
-package proto;
+package reference;
 
-option go_package = "./";
+option go_package = "/reference";
 
 message Reference {
     string comment = 1;

@@ -6,6 +6,7 @@ package cmd
 
 import (
 	"fmt"
+    "log"
     "os"
 
 	"github.com/spf13/cobra"
@@ -33,8 +34,7 @@ func deleteReference(reference string) {
 
     // make sure the directory exists
     if err != nil {
-        fmt.Println("Error reading directory", err)
-        os.Exit(1)
+        log.Fatal("Error reading directory", err)
     }
 
     // check if the entry exists
@@ -44,15 +44,14 @@ func deleteReference(reference string) {
             err := os.Remove(directory + fileName)
             // return an error if the file could not be deleted
             if err != nil {
-                fmt.Println("Error deleting reference", err)
-                os.Exit(1)
+                log.Fatal("Error deleting reference", err)
             }
-            fmt.Println("Reference", reference, "deleted successfully")
+            fmt.Println("Reference", fileName, "deleted successfully")
             return
         }
     }
     // if the reference does not exist, return an error
-    fmt.Println("Reference", reference, "does not exist")
+    fmt.Println("Reference", fileName, "does not exist")
     os.Exit(1)
 
 }
