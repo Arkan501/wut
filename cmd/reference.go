@@ -11,8 +11,8 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-    "github.com/arkan501/wut/reference"
 
+    "github.com/arkan501/wut/reference"
 	"github.com/spf13/cobra"
     "google.golang.org/protobuf/proto"
 )
@@ -69,6 +69,7 @@ func generateReferenceCmd(referenceName string) *cobra.Command {
 
 			if add {
 				fmt.Println("adding new topic")
+                addTopic(referenceName)
 			} else {
 				fmt.Println("not adding new topic")
 			}
@@ -89,7 +90,7 @@ func generateReferenceCmd(referenceName string) *cobra.Command {
 }
 
 func addTopic(referenceName string) {
-	fileName := referenceName + ".pb"
+	// fileName := referenceName + ".pb"
 
 	// Open up the template file
 	original, err := os.Open("template.txt")
@@ -121,11 +122,11 @@ func addTopic(referenceName string) {
 
 	serialize(categories)
 
-	entries, err := os.ReadDir("./reference")
-	if err != nil {
-		fmt.Println("Error reading directory", err)
-		os.Exit(1)
-	}
+	// entries, err := os.ReadDir("./reference")
+	// if err != nil {
+	// 	fmt.Println("Error reading directory", err)
+	// 	os.Exit(1)
+	// }
 
 }
 
@@ -171,11 +172,11 @@ func readTemp(fileName string) []strings.Builder {
 
 func serialize(category []strings.Builder) {
 
-	msg := &Reference{
-		Comment:     category[0],
-		Snippet:     category[1],
-		Description: category[2],
-		Tag:         category[3:],
+	msg := &reference.Reference{
+		Comment:     category[0].String(),
+		Snippet:     category[1].String(),
+		Description: category[2].String(),
+		Tag:         category[3].String(),
 	}
 
 	data, err := proto.Marshal(msg)
