@@ -12,9 +12,9 @@ import (
 	"os/exec"
 	"strings"
 
-    "github.com/arkan501/wut/reference"
+	"github.com/arkan501/wut/reference"
 	"github.com/spf13/cobra"
-    "google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 )
 
 func createReferenceCmd() *cobra.Command {
@@ -68,7 +68,7 @@ func generateReferenceCmd(referenceName string) *cobra.Command {
 
 			if add {
 				fmt.Println("adding new topic")
-                addTopic(referenceName)
+				addTopic(referenceName)
 			} else {
 				fmt.Println("not adding new topic")
 			}
@@ -76,8 +76,6 @@ func generateReferenceCmd(referenceName string) *cobra.Command {
 	}
 	// The flags for this command are defined here so that the default command
 	// has no flags.
-
-	// referenceCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	// Flags that I would like to implement would be the following:
 	// 1. --string, -s, "string to search for"
@@ -104,30 +102,34 @@ func addTopic(referenceName string) {
 		log.Fatal("could not create temp file", err)
 	}
 	defer tempFile.Close()
+    defer os.Remove(tempFile.Name())
 
 	// Copy over the original template to the temporary one
 	_, err = io.Copy(tempFile, original)
 	if err != nil {
 		log.Fatal("could not copy to temp file", err)
 	}
-    fmt.Println("copied template to temp file")
+	fmt.Println("copied template to temp file")
 
 	// Open temp file in system text editor for editing
 	err = openFile(tempFile.Name())
 	if err != nil {
-        log.Fatal("There was an error closing the editor: ", err)
+		log.Fatal("There was an error closing the editor: ", err)
 	}
-    fmt.Println("tempfile opened by system editor")
+	fmt.Println("tempfile opened by system editor")
 
 	categories := readTemp(tempFile.Name())
 
 	serialize(categories)
 }
 
-// TODO: fix the openFile function so that it waits for the editor to close
+// TODO: fix the openFile function to work with editors other than neovim
 func openFile(fileName string) error {
-	editorCmd := exec.Command("xdg-open", fileName)
-    fmt.Println("Opening file with", editorCmd)
+	editorCmd := exec.Command("nvim", fileName)
+	fmt.Println("Opening file with", editorCmd)
+	// editorCmd.Stdin = os.Stdin
+	editorCmd.Stdout = os.Stdout
+	editorCmd.Stderr = os.Stderr
 	return editorCmd.Run()
 }
 
