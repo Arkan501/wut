@@ -24,4 +24,6 @@ go.work
 .idea
 
 # protobufs
-/protobufs
+/reference
+
+

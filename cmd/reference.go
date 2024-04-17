@@ -60,7 +60,6 @@ func generateReferenceCmd(referenceName string) *cobra.Command {
 		Use:   referenceName,
 		Short: fmt.Sprintf("%s reference", referenceName),
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("This is the reference command " + cmd.Use)
 
 			add, err := cmd.Flags().GetBool("add")
 			if err != nil {
@@ -111,27 +110,24 @@ func addTopic(referenceName string) {
 	if err != nil {
 		log.Fatal("could not copy to temp file", err)
 	}
+    fmt.Println("copied template to temp file")
 
 	// Open temp file in system text editor for editing
 	err = openFile(tempFile.Name())
 	if err != nil {
-		log.Fatal("could not open temp file with system editor", err)
+        log.Fatal("There was an error closing the editor: ", err)
 	}
+    fmt.Println("tempfile opened by system editor")
 
 	categories := readTemp(tempFile.Name())
 
 	serialize(categories)
-
-	// entries, err := os.ReadDir("./reference")
-	// if err != nil {
-	// 	fmt.Println("Error reading directory", err)
-	// 	os.Exit(1)
-	// }
-
 }
 
+// TODO: fix the openFile function so that it waits for the editor to close
 func openFile(fileName string) error {
 	editorCmd := exec.Command("xdg-open", fileName)
+    fmt.Println("Opening file with", editorCmd)
 	return editorCmd.Run()
 }
 
