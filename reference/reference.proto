@@ -3,17 +3,13 @@ package reference;
 
 option go_package = "/reference";
 
-message Reference {
+message Topic {
     string comment = 1;
     string snippet = 2;
     string description = 3;
-    repeated Tag tags = 4;
+    repeated string tags = 4;
 }
 
-message Tag {
-    string tag = 1;
-}
-
-message ReferenceList {
-    repeated Reference references = 1;
+message Reference {
+    repeated Topic topics = 1;
 }

@@ -20,21 +20,89 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Topic struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Comment     string   `protobuf:"bytes,1,opt,name=comment,proto3" json:"comment,omitempty"`
+	Snippet     string   `protobuf:"bytes,2,opt,name=snippet,proto3" json:"snippet,omitempty"`
+	Description string   `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Tags        []string `protobuf:"bytes,4,rep,name=tags,proto3" json:"tags,omitempty"`
+}
+
+func (x *Topic) Reset() {
+	*x = Topic{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_reference_reference_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Topic) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Topic) ProtoMessage() {}
+
+func (x *Topic) ProtoReflect() protoreflect.Message {
+	mi := &file_reference_reference_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Topic.ProtoReflect.Descriptor instead.
+func (*Topic) Descriptor() ([]byte, []int) {
+	return file_reference_reference_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Topic) GetComment() string {
+	if x != nil {
+		return x.Comment
+	}
+	return ""
+}
+
+func (x *Topic) GetSnippet() string {
+	if x != nil {
+		return x.Snippet
+	}
+	return ""
+}
+
+func (x *Topic) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Topic) GetTags() []string {
+	if x != nil {
+		return x.Tags
+	}
+	return nil
+}
+
 type Reference struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Comment     string `protobuf:"bytes,1,opt,name=comment,proto3" json:"comment,omitempty"`
-	Snippet     string `protobuf:"bytes,2,opt,name=snippet,proto3" json:"snippet,omitempty"`
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Tag         string `protobuf:"bytes,4,opt,name=tag,proto3" json:"tag,omitempty"`
+	Topics []*Topic `protobuf:"bytes,1,rep,name=topics,proto3" json:"topics,omitempty"`
 }
 
 func (x *Reference) Reset() {
 	*x = Reference{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_reference_reference_proto_msgTypes[0]
+		mi := &file_reference_reference_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -47,7 +115,7 @@ func (x *Reference) String() string {
 func (*Reference) ProtoMessage() {}
 
 func (x *Reference) ProtoReflect() protoreflect.Message {
-	mi := &file_reference_reference_proto_msgTypes[0]
+	mi := &file_reference_reference_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,80 +128,12 @@ func (x *Reference) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Reference.ProtoReflect.Descriptor instead.
 func (*Reference) Descriptor() ([]byte, []int) {
-	return file_reference_reference_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Reference) GetComment() string {
-	if x != nil {
-		return x.Comment
-	}
-	return ""
-}
-
-func (x *Reference) GetSnippet() string {
-	if x != nil {
-		return x.Snippet
-	}
-	return ""
-}
-
-func (x *Reference) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-func (x *Reference) GetTag() string {
-	if x != nil {
-		return x.Tag
-	}
-	return ""
-}
-
-type ReferenceList struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	References []*Reference `protobuf:"bytes,1,rep,name=references,proto3" json:"references,omitempty"`
-}
-
-func (x *ReferenceList) Reset() {
-	*x = ReferenceList{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_reference_reference_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *ReferenceList) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ReferenceList) ProtoMessage() {}
-
-func (x *ReferenceList) ProtoReflect() protoreflect.Message {
-	mi := &file_reference_reference_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ReferenceList.ProtoReflect.Descriptor instead.
-func (*ReferenceList) Descriptor() ([]byte, []int) {
 	return file_reference_reference_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ReferenceList) GetReferences() []*Reference {
+func (x *Reference) GetTopics() []*Topic {
 	if x != nil {
-		return x.References
+		return x.Topics
 	}
 	return nil
 }
@@ -143,20 +143,19 @@ var File_reference_reference_proto protoreflect.FileDescriptor
 var file_reference_reference_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x2f, 0x72, 0x65, 0x66, 0x65,
 	0x72, 0x65, 0x6e, 0x63, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x09, 0x72, 0x65, 0x66,
-	0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x22, 0x73, 0x0a, 0x09, 0x52, 0x65, 0x66, 0x65, 0x72, 0x65,
-	0x6e, 0x63, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x18, 0x0a,
-	0x07, 0x73, 0x6e, 0x69, 0x70, 0x70, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
-	0x73, 0x6e, 0x69, 0x70, 0x70, 0x65, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72,
-	0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65,
-	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x10, 0x0a, 0x03, 0x74, 0x61, 0x67,
-	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x74, 0x61, 0x67, 0x22, 0x45, 0x0a, 0x0d, 0x52,
-	0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x34, 0x0a, 0x0a,
-	0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x14, 0x2e, 0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x2e, 0x52, 0x65, 0x66,
-	0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x52, 0x0a, 0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63,
-	0x65, 0x73, 0x42, 0x0c, 0x5a, 0x0a, 0x2f, 0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x22, 0x71, 0x0a, 0x05, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x12,
+	0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x07, 0x63, 0x6f, 0x6d, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x6e, 0x69,
+	0x70, 0x70, 0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x73, 0x6e, 0x69, 0x70,
+	0x70, 0x65, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x04, 0x20,
+	0x03, 0x28, 0x09, 0x52, 0x04, 0x74, 0x61, 0x67, 0x73, 0x22, 0x35, 0x0a, 0x09, 0x52, 0x65, 0x66,
+	0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x12, 0x28, 0x0a, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e,
+	0x63, 0x65, 0x2e, 0x54, 0x6f, 0x70, 0x69, 0x63, 0x52, 0x06, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73,
+	0x42, 0x0c, 0x5a, 0x0a, 0x2f, 0x72, 0x65, 0x66, 0x65, 0x72, 0x65, 0x6e, 0x63, 0x65, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -173,11 +172,11 @@ func file_reference_reference_proto_rawDescGZIP() []byte {
 
 var file_reference_reference_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_reference_reference_proto_goTypes = []interface{}{
-	(*Reference)(nil),     // 0: reference.Reference
-	(*ReferenceList)(nil), // 1: reference.ReferenceList
+	(*Topic)(nil),     // 0: reference.Topic
+	(*Reference)(nil), // 1: reference.Reference
 }
 var file_reference_reference_proto_depIdxs = []int32{
-	0, // 0: reference.ReferenceList.references:type_name -> reference.Reference
+	0, // 0: reference.Reference.topics:type_name -> reference.Topic
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -192,7 +191,7 @@ func file_reference_reference_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_reference_reference_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Reference); i {
+			switch v := v.(*Topic); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -204,7 +203,7 @@ func file_reference_reference_proto_init() {
 			}
 		}
 		file_reference_reference_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ReferenceList); i {
+			switch v := v.(*Reference); i {
 			case 0:
 				return &v.state
 			case 1:
