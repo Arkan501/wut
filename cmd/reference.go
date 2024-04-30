@@ -84,7 +84,6 @@ func generateReferenceCmd(referenceName string) *cobra.Command {
 	// Flags that I would like to implement would be the following:
 	// 1. --string, -s, "string to search for"
 	// 2. --tag, -t, "tag to search for"
-	// 3. --list, -l, "list of all topics stored in the current reference"
 	referenceCmd.Flags().BoolP("add", "a", false, "add a new topic to the current reference")
     referenceCmd.Flags().BoolP("list", "l", false, "list all topics under the current reference")
 	// 5. --remove, -r, "remove a topic from the current reference"
@@ -92,7 +91,7 @@ func generateReferenceCmd(referenceName string) *cobra.Command {
 }
 
 func addTopic(referenceName string) {
-	fileName := "/reference/" + referenceName + ".pb"
+	fileName := "./reference/" + referenceName + ".pb"
 
 	// Open up the template file
 	original, err := os.Open("template.txt")
@@ -114,20 +113,16 @@ func addTopic(referenceName string) {
 	if err != nil {
 		log.Fatal("could not copy to temp file", err)
 	}
-	fmt.Println("copied template to temp file")
 
 	// Open temp file in system text editor for editing
 	err = editTopic(tempFile.Name())
 	if err != nil {
 		log.Fatal("There was an error closing the editor: ", err)
 	}
-	fmt.Println("tempfile opened by system editor")
 
 	categories := readTemp(tempFile.Name())
 
-    data := serialize(categories)
-
-    appendReference(fileName, data)
+    appendReference(fileName, categories)
 }
 
 // TODO: fix the editTopic function to work with editors other than neovim
@@ -174,24 +169,29 @@ func readTemp(fileName string) []strings.Builder {
 	return category
 }
 
-func serialize(category []strings.Builder) []byte {
+func convertToProto(category []strings.Builder) *reference.Topic {
     // convert the tags category to a slice of strings
     tagField := strings.Split(category[3].String(), ",")
 
     // convert the categories into a topic message
-	topic := reference.Topic{
-		Comment:     category[0].String(),
-		Snippet:     category[1].String(),
-		Description: category[2].String(),
-		Tags:        tagField,
-	}
+    topic := &reference.Topic{
+        Comment:     category[0].String(),
+        Snippet:     category[1].String(),
+        Description: category[2].String(),
+        Tags:        tagField,
+    }
 
     // add the topic to the reference
-    ref := reference.Reference{}
-    ref.Topics = append(ref.Topics, &topic)
+    var ref reference.Reference
+    ref.Topics = append(ref.Topics, topic)
+
+    return topic
+}
+
+func serialize(reference *reference.Reference) []byte {
 
     // Marshal the data
-	data, err := proto.Marshal(&ref)
+	data, err := proto.Marshal(reference)
 	if err != nil {
 		log.Fatal("marshaling error:", err)
 	}
@@ -199,8 +199,7 @@ func serialize(category []strings.Builder) []byte {
     return data
 }
 
-// TODO: move things around so that serialize is done after appendReference.
-func appendReference(fileName string, data []byte) {
+func appendReference(fileName string, data []strings.Builder) {
 
     currentData, err := os.ReadFile(fileName)
     if err != nil {
@@ -214,11 +213,25 @@ func appendReference(fileName string, data []byte) {
         log.Fatal("unmarshaling error:", err)
     }
 
-    // var newTopic reference.Topic
+    newTopic := convertToProto(data)
+
+    currentReference.Topics = append(currentReference.Topics, newTopic)
+
+    // updatedData, err := proto.Marshal(&currentReference)
+    // if err != nil {
+    //     log.Fatal("marshaling error:", err)
+    // }
+
+    updatedData := serialize(&currentReference)
+
+    err = os.WriteFile(fileName, updatedData, 0644)
+    if err != nil {
+        log.Fatal("could not write to file", err)
+    }
 }
 
 func listReference(referenceName string) {
-    fileName := "/reference/" + referenceName + ".pb"
+    fileName := "./reference/" + referenceName + ".pb"
 
     data, err := os.ReadFile(fileName)
     if err != nil {
@@ -231,11 +244,12 @@ func listReference(referenceName string) {
         log.Fatal("unmarshaling error:", err)
     }
 
-    for _, topic := range currentReference.Topics {
-        fmt.Println("// Comment\n", topic.GetComment())
-        fmt.Println("// Snippet\n", topic.GetSnippet())
-        fmt.Println("// Description\n", topic.GetDescription())
-        fmt.Println("// Tags\n", strings.Join(topic.GetTags(), ", "))
+    for ix, topic := range currentReference.Topics {
+        fmt.Println("\tTopic:", ix + 1)
+        fmt.Println("\t// Comment\n", topic.GetComment())
+        fmt.Println("\t// Snippet\n", topic.GetSnippet())
+        fmt.Println("\t// Description\n", topic.GetDescription())
+        fmt.Println("\t// Tags\n", strings.Join(topic.GetTags(), ", "))
     }
 }
 
