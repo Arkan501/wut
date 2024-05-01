@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"fmt"
+    "log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -20,12 +21,11 @@ var newCmd = &cobra.Command{
 }
 
 func makeNewReference(referenceName string) {
-    directory := "./proto/"
+    directory := "./reference/"
 	entries, err := os.ReadDir(directory)
 	// making sure we can read the directory
 	if err != nil {
-		fmt.Println("Error reading directory", err)
-		os.Exit(1)
+        log.Fatal("Error reading directory", err)
 	}
 
 	fileName := referenceName + ".pb"
@@ -44,10 +44,9 @@ func makeNewReference(referenceName string) {
 
 	_, err = os.Create(filePath)
 	if err != nil {
-		fmt.Println("There was an error creating the reference", err)
-		os.Exit(1)
+        log.Fatal("There was an error creating the reference", err)
 	}
-	fmt.Println("Reference", referenceName, "created successfully")
+	fmt.Println("Reference", fileName, "created successfully")
 }
 
 func init() {
